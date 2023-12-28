@@ -1,3 +1,4 @@
+from math import comb
 message = input("Veuillez entrer la phrase à traduire : ")
 
 def generate_translation(msg, partial_trans, translated, f):
@@ -32,6 +33,16 @@ with open("suppositions.txt", "r") as f:
             suppositions[x] = y
         else:
             ignored[x] = y
+
+unique_letters = set(x for x in message if x != " " and x not in suppositions)
+len_supps = len(suppositions)
+letters_left = len(alphabet) - len_supps
+all_combis = comb(letters_left, unique_letters)
+if all_combis > 10000:
+    answer = input("Plus de 10000 combinaisons possibles ({}). Continuer ? (oui/non)".format(all_combis)
+    if answer != "oui":
+        exit()
+
 
 with open("result.txt", "w") as f:
     f.write("Génération de toutes les traductions de la phrase : " + message)
